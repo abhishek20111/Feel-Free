@@ -73,7 +73,7 @@ export const createOrUpdate = async (
             },
             { upsert: true, new: true } // if user doesn't exist, create a new one
         );
-
+            console.log(user);
         await user.save();
         return user;
     } catch (error) {
@@ -84,6 +84,7 @@ export const createOrUpdate = async (
 export const deleteUser = async (id) => {
     try {
       await connectToDB();
+      console.log("Deleting data");
       await User.findOneAndDelete({ clerkId: id });
     } catch (error) {
       console.error(error);

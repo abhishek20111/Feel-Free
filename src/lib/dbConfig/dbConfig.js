@@ -11,7 +11,7 @@ export const connectToDB = async () => {
   }
 
   try {
-    await mongoose.connect('mongodb://localhost:27017', {
+    await mongoose.connect('mongodb://localhost:27017/nextjs', {
       dbName: "VibeZone",
       useNewUrlParser: true,
       useUnifiedTopology: true,
