@@ -1,24 +1,23 @@
-import mongoose from "mongoose";
+const mongoose = require('mongoose');
 
-let isConnected = false; // Track connection status
+// const MONGODB_URI = process.env.MONGODB_URI;
+const MONGODB_URI = 'mongodb+srv://project:LrmePKBVp0ilFNoY@cluster0.cw3zhzn.mongodb.net/?retryWrites=true&w=majority';
 
-export const connectToDB = async () => {
-  mongoose.set("strictQuery", true);
+let cached = global.mongoose || { conn: null, promise: null };
 
-  if (isConnected) {
-    console.log("MongoDB is already connected");
-    return;
-  }
+const connectToDatabase = async () => {
+  if (cached.conn) return cached.conn;
 
-  try {
-    await mongoose.connect('mongodb+srv://project:LrmePKBVp0ilFNoY@cluster0.cw3zhzn.mongodb.net/?retryWrites=true&w=majority', {
-      dbName: "FeelFree",
-    });
+  if (!MONGODB_URI) throw new Error('MONGODB_URI is missing');
 
-    isConnected = true;
+  cached.promise = cached.promise || mongoose.connect(MONGODB_URI, {
+    dbName: 'evently',
+    bufferCommands: false,
+  });
 
-    console.log("MongoDB is connected");
-  } catch (error) {
-    console.log(error);
-  }
+  cached.conn = await cached.promise;
+
+  return cached.conn;
 };
+
+module.exports = { connectToDatabase };
