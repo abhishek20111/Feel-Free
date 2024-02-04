@@ -1,5 +1,5 @@
 import User from '@/lib/models/user'
-import { connectToDB } from '@/lib/dbConfig/dbConfig';
+import { connectToDatabase } from '@/lib/dbConfig/dbConfig';
 
 
 // documentation 
@@ -58,7 +58,7 @@ export const createOrUpdate = async (
     username
 ) => {
     try {
-        await connectToDB();
+        await connectToDatabase();
 
         const user = await User.findOneAndUpdate(
             { clerkId: id },
@@ -83,7 +83,7 @@ export const createOrUpdate = async (
 
 export const deleteUser = async (id) => {
     try {
-      await connectToDB();
+      await connectToDatabase();
       console.log("Deleting data");
       await User.findOneAndDelete({ clerkId: id });
     } catch (error) {

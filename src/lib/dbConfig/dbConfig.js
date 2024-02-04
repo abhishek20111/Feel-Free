@@ -1,4 +1,5 @@
-const mongoose = require('mongoose');
+
+import mongoose from 'mongoose';
 
 // const MONGODB_URI = process.env.MONGODB_URI;
 const MONGODB_URI = 'mongodb+srv://project:LrmePKBVp0ilFNoY@cluster0.cw3zhzn.mongodb.net/?retryWrites=true&w=majority';
@@ -11,7 +12,7 @@ const connectToDatabase = async () => {
   if (!MONGODB_URI) throw new Error('MONGODB_URI is missing');
 
   cached.promise = cached.promise || mongoose.connect(MONGODB_URI, {
-    dbName: 'evently',
+    dbName: 'freeFall',
     bufferCommands: false,
   });
 
