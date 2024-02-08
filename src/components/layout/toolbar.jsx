@@ -3,7 +3,7 @@ import Link from "next/link";
 
 function toolbar() {
   return (
-    <div className="flex justify-between w-full">
+    <div className="flex justify-between w-full sticky top-3 z-20 overflow-auto">
       <div className="max-w-md mx-auto">
         <div className="relative flex items-center w-full h-12 rounded-lg shadow-lg bg-white overflow-hidden">
           <div className="grid place-items-center h-full w-12 text-gray-300">

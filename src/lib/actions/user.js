@@ -73,7 +73,7 @@ export const createOrUpdate = async (
             },
             { upsert: true, new: true } // if user doesn't exist, create a new one
         );
-            console.log(user);
+        console.log(user);
         await user.save();
         return user;
     } catch (error) {
