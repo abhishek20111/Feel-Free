@@ -1,16 +1,17 @@
-"use client"
+"use client";
 
-import React from 'react'
-import Posting from '@/components/form/Posting'
+import React from 'react';
+import { useSearchParams } from 'next/navigation'
+import Posting from '@/components/form/Posting';
 
-function page() {
+function Post() {
+  const searchParams = useSearchParams()
+  const id = searchParams.get('id');
   return (
     <div>
-      hi
-      <Posting 
-      />
+      <Posting id={id} />
     </div>
-  )
+  );
 }
 
-export default page
+export default Post;

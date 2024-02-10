@@ -1,7 +1,6 @@
-
-function rightsidebar() {
+function RightSidebar() {
   return (
-    <div className="sticky right-0 top-0 z-20 h-screen w-[25rem] xl:w-[28rem] flex flex-col gap-12 overflow-auto pl-6 pr-4 py-6 max-lg:hidden">
+    <div className="sticky right-0 top-0 z-20 h-screen w-[25rem] xl:w-[28rem] flex flex-col gap-12 overflow-auto pl-6 pr-4 py-6 max-md:hidden">
       <div className="flex items-center justify-between">
         <h2 className="text-2xl font-bold">Trending</h2>
         <button className="p-2 rounded-full bg-primary text-primary-foreground">
@@ -43,4 +42,4 @@ function rightsidebar() {
   )
 }
 
-export default rightsidebar
+export default RightSidebar;

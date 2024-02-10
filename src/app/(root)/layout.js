@@ -18,7 +18,7 @@ export const metadata = {
   title: "Feel Free",
   description: "Best Social Media Platform",
   icons: {
-    icon:'/assets/logo.jpg'
+    icon: '/assets/logo.jpg'
   }
 };
 
@@ -28,13 +28,13 @@ export default function RootLayout({ children }) {
       <html lang="en">
         <body className={`${poppins.className} custom-scrollbar `}>
           <div className="flex gap-x-8">
-          <LeftSideBar/>
-          <div className="flex flex-col w-[50dvw] mt-4">
-            <Toolbar/>
-            <MainContent children={children}/>
-            <BotttomBar/>
-          </div>
-          <RighSideShow/>
+            <LeftSideBar />
+            <div className="flex flex-col mt-4 w-full sm:w-[60vw] md:w-[50vw]">
+              <Toolbar />
+              <MainContent children={children} />
+              <BotttomBar />
+            </div>
+            <RighSideShow />
           </div>
         </body>
       </html>

@@ -38,7 +38,7 @@ function sidebar() {
       {loding || !isLoaded ? (
         <Loading />
       ) : (
-        <div className="flex flex-col sticky left-0 top-0 z-20 h-screen p-3 w-60 max-md:hidden dark:bg-gray-900 dark:text-gray-100 custom-scrollbar overflow-auto custom-scrollbar">
+        <div className="flex flex-col sticky left-0 top-0 z-20 h-screen p-3 w-60 md:w-[17vw] max-sm:hidden dark:bg-gray-900 dark:text-gray-100 custom-scrollbar overflow-auto custom-scrollbar">
           <div className="space-y-3">
             <div className="my-3">
               <h2>{firstPath === "/" ? "Dashboard" : firstPath}</h2>
@@ -72,7 +72,10 @@ function sidebar() {
                   } rounded-lg p-1 `}
                 >
                   <Link
-                    href="/create-post"
+                    href={{
+                      pathname: "/create-post",
+                      query: {id: userData._id}
+                  }} 
                     className="flex items-center p-2 space-x-3 rounded-md"
                   >
                     <Image src={create_post} height={19} width={19} alt="Post"/>
