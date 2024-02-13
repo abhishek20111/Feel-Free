@@ -8,9 +8,9 @@ import { useUser } from "@clerk/nextjs";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import Loading from "@/components/loader/sideBar_loader";
-import create_post from '../../../public/assets/create_post.png'
+import create_post from "../../../public/assets/create_post.png";
 import Image from "next/image";
-import '@/app/globals.css'
+import "@/app/globals.css";
 
 function sidebar() {
   const { isSignedIn, user, isLoaded } = useUser();
@@ -20,14 +20,12 @@ function sidebar() {
   const regex = /^\/([^\/]+)/;
   const firstPath = pathname.match(regex) ? pathname.match(regex)[0] : pathname;
 
-  console.log(isSignedIn, isLoaded, user);
   const getUser = async () => {
     setLoding(true);
-    const response = await axios.get(`/api/user/${user.id}`)
-    setUserData(response.data)
+    const response = await axios.get(`/api/user/${user.id}`);
+    setUserData(response.data);
     setLoding(false);
   };
-
 
   useEffect(() => {
     user && getUser();
@@ -74,11 +72,16 @@ function sidebar() {
                   <Link
                     href={{
                       pathname: "/create-post",
-                      query: {id: userData._id}
-                  }} 
+                      query: { id: userData && userData._id }, // Check if userData is defined before accessing its properties
+                    }}
                     className="flex items-center p-2 space-x-3 rounded-md"
                   >
-                    <Image src={create_post} height={19} width={19} alt="Post"/>
+                    <Image
+                      src={create_post}
+                      height={19}
+                      width={19}
+                      alt="Post"
+                    />
                     <span>Post</span>
                   </Link>
                 </li>
@@ -191,10 +194,11 @@ function sidebar() {
             </div>
           </div>
           <div className="flex items-center p-2 mt-5 space-x-4 justify-self-end">
-
             <UserButton />
             <div>
-              <h2 className="text-lg font-semibold">{userData?.firstName} {userData?.lastName}</h2>
+              <h2 className="text-lg font-semibold">
+                {userData?.firstName} {userData?.lastName}
+              </h2>
               <span className="flex items-center space-x-1">
                 <a
                   rel="noopener noreferrer"

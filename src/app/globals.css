@@ -22,3 +22,8 @@
     border-radius: 2px;
   }
 }
+
+.black-and-white-toast {
+  color: black; /* Setting text color to black */
+  background-color: white; /* Setting background color to white */
+}

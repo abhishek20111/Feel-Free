@@ -7,6 +7,7 @@ import RighSideShow from '@/components/layout/rightsidebar'
 import MainContent from "@/components/layout/MainContent";
 import BotttomBar from "@/components/layout/BotttomBar";
 import '@/app/globals.css'
+import { Toaster } from "@/components/ui/toaster"
 
 const poppins = Poppins({
   subsets: ['latin'],
@@ -36,6 +37,7 @@ export default function RootLayout({ children }) {
             </div>
             <RighSideShow />
           </div>
+          <Toaster />
         </body>
       </html>
     </ClerkProvider>

@@ -18,9 +18,7 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <ClerkProvider
-    
-    >
+    <ClerkProvider>
       <html lang="en">
         <body className={`${poppins.className} flex  justify-center bg-gray-800 items-center sm:mt-5`}>{children}</body>
       </html>

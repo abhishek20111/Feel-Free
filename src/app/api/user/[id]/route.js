@@ -10,10 +10,10 @@ export const GET = async (req, { params }) => {
     console.log(params.id);
     const user = await User.findOne({ clerkId: params.id })
       .populate({
-        path: "followers following"
+        path: "savedPosts followers following"
       })
       .exec();
-
+      console.log("Response it going of user"+user._id);
     return new Response(JSON.stringify(user), { status: 200 });
   } catch (err) {
     console.error(err);

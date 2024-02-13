@@ -7,17 +7,16 @@ import delete_icon from "../../../public/assets/delete.png";
 import Loading from "@/components/loader/create_post_loader.jsx";
 import { useUser } from "@clerk/nextjs";
 import { useRouter } from "next/navigation.js";
+import { useToast } from "@/components/ui/use-toast";
 
 function Posting({ id, updatePhoto, updateCaption, updateTag }) {
-  const [link, setLink] = useState(
-    updatePhoto ||
-      ""
-  );
+  const [link, setLink] = useState(updatePhoto || "");
   const [imageChange, setImageChange] = useState(null);
   const { isLoaded } = useUser();
   const [updatePost, setupdatePost] = useState(false);
   const [loding, setLoding] = useState(true);
-  const router = useRouter()
+  const router = useRouter();
+  const { toast } = useToast();
   const {
     register,
     handleSubmit,
@@ -39,7 +38,7 @@ function Posting({ id, updatePhoto, updateCaption, updateTag }) {
     try {
       setLoding(true);
       const { url } = await uploadcloudnary(imageChange);
-      console.log(url);
+      // console.log(url);
       setLink(url);
       setLoding(false);
       return url; // Return the uploaded image URL
@@ -48,37 +47,51 @@ function Posting({ id, updatePhoto, updateCaption, updateTag }) {
       return null;
     }
   };
-  const onUpdateSubmit = async (data) => {};
-
-  const onSubmit = async (data) => {
-    try {
-      if (link) {
-        setLoding(true);
-        const tagsArray = data.tags.map((tag) => tag.tag.replace("#", ""));
-
-        const formData = {
-          creator: id,
-          postPhoto: link,
-          caption: data.caption,
-          tag: tagsArray,
-        };
-        const response = await axios.post("/api/post/new", {formData});
-        setLoding(false);
-        router.push('/')
-      } else {
-        console.error("Image URL not available");
-      }
-    } catch (error) {
-      console.error("Error submitting form data:", error);
-    }
+  const onUpdateSubmit = async (data) => {
+    console.log(formData);
   };
+
+  // const onSubmit = async (data) => {
+  //   try {
+  //     if (link) {
+  //       setLoding(true);
+  //       const tagsArray = data.tags.map((tag) => tag.tag.replace("#", ""));
+
+  //       const formData = {
+  //         creator: id,
+  //         postPhoto: link,
+  //         caption: data.caption,
+  //         tag: tagsArray,
+  //       };
+  //       const response = await axios.post("/api/post/new", { formData });
+  //       console.log(response.data);
+  //       toast({
+  //         variant: "success",
+  //         title: "Post Added Successfuly"
+  //       });
+  //       setLoding(false);
+  //       router.push("/");
+  //     } else {
+  //       console.error("Image URL not available");
+  //     }
+  //   } catch (error) {
+  //     toast({
+  //       variant: "destructive",
+  //       title: "Error in submit post",
+  //       description: error,
+  //       // action: <ToastAction altText="Try again">Try again</ToastAction>,
+  //     })
+  //     console.error("Error submitting form data:", error);
+  //   }
+  // };
 
   useEffect(() => {
     if (imageChange !== null) {
       uploadImage();
     }
   }, [imageChange]);
-
+  
+  
   useEffect(() => {
     if (!updatePhoto && !updateCaption && !updateTag) {
       setLoding(false);
@@ -86,14 +99,31 @@ function Posting({ id, updatePhoto, updateCaption, updateTag }) {
       if (updatePhoto) setLink(updatePhoto);
       if (updateCaption) setValue("caption", updateCaption);
       if (updateTag) {
-        updateTag.forEach((tag, index) => {
-          setValue(`tags.${index}.tag`, tag);
+        const formattedTags = updateTag.split(' ').map(tag => `#${tag}`);
+        formattedTags.forEach((tag) => {
+          append({ tag });
         });
       }
       setupdatePost(true);
       setLoding(false);
     }
   }, [updatePhoto, updateCaption, updateTag]);
+  
+
+useEffect(() => {
+  const timer = setTimeout(() => {
+    if (fields.length > 0) {
+      const uniqueTags = fields.map(item => item.tag).filter((tag, index, self) => self.indexOf(tag) === index);
+      if (uniqueTags.length !== fields.length) {
+        const newFields = uniqueTags.map(tag => ({ tag }));
+        setValue('tags', newFields);
+      }
+    }
+  }, 100); // 0.1 seconds timeout
+
+  return () => clearTimeout(timer);
+}, [fields]);
+
 
   const handleKeyDown = (e) => {
     if (e.key === "Enter") {
@@ -101,15 +131,29 @@ function Posting({ id, updatePhoto, updateCaption, updateTag }) {
       const value = e.target.value.trim();
       const isValidTag = /^#[^\s]+$/.test(value); // Check if value matches the pattern
       if (isValidTag && fields.length < 5) {
+        const isDuplicate = fields.some(item => item.tag === value);
+        if (isDuplicate) {
+          // If duplicate tag found, remove the existing one
+          const index = fields.findIndex(item => item.tag === value);
+          if (index !== -1) {
+            remove(index);
+          }
+        }
         append({ tag: value });
         setValue("newTag", "#");
       }
     }
   };
+  const onSubmit = (data) => {
+    console.log(data);
+  };
+  
+
+  
 
   return (
     <>
-      {false ? (
+      {!isLoaded || loding ? (
         <Loading />
       ) : (
         <div className="flex flex-col gap-7 pb-24 w-full ">
@@ -187,7 +231,6 @@ function Posting({ id, updatePhoto, updateCaption, updateTag }) {
                     </label>
                     <textarea
                       type="text"
-                      required
                       rows={10}
                       id="large-input"
                       className={`${
@@ -197,7 +240,7 @@ function Posting({ id, updatePhoto, updateCaption, updateTag }) {
                       }  block w-full p-4 text-gray-900 border  rounded-lg bg-gray-50 sm:text-md focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500`}
                       placeholder="Hi its my first post...😁"
                       {...register("caption", { required: true })}
-                      style={{ overflow: "hidden", resize: "none" }} // Style to remove scrollbars and prevent resizing
+                      style={{ overflow: "hidden", resize: "none" }}
                     />
 
                     {errors.caption && (
@@ -211,20 +254,19 @@ function Posting({ id, updatePhoto, updateCaption, updateTag }) {
                     {fields.length < 5 ? (
                       <>
                         <label
-                          htmlFor="base-input"
+                          htmlFor="newTag"
                           className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                         >
                           Tags
                         </label>
                         <input
-                          id="base-input"
+                          id="newTag"
                           className={`bg-gray-50 border w-fit border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block  p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 ${
                             errors.newTag ? "border-red-500" : ""
                           }`}
                           placeholder="#popular"
                           defaultValue="#"
                           {...register("newTag", {
-                            
                             pattern: {
                               value: /^#[^\s]+$/, // Adjusted pattern to disallow spaces after #
                               message:
@@ -234,6 +276,7 @@ function Posting({ id, updatePhoto, updateCaption, updateTag }) {
                           onKeyDown={handleKeyDown}
                           value={watch("newTag")}
                         />
+                        {console.log(errors.newTag)}
                         {errors.newTag && (
                           <span className="text-red-500 text-xs">
                             {errors.newTag.message}
