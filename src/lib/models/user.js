@@ -1,4 +1,6 @@
 import mongoose from "mongoose";
+import Post from "./post.js";
+
 const {ObjectId} = mongoose.Schema.Types
 
 const UserSchema = new mongoose.Schema({
@@ -27,18 +29,21 @@ const UserSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  savedPosts: {
-    type: [{ type: ObjectId, ref: "Post" }],
+  savedPosts: [{
+    type: ObjectId,
+     ref: "Post",
     default: [],
-  },
-  followers: {
-    type: [{ type: ObjectId, ref: "User" }],
+  }],
+  followers: [{
+    type:  ObjectId,
+     ref: "User" ,
     default: [],
-  },
-  following: {
-    type: [{ type: ObjectId, ref: "User" }],
+  }],
+  following: [{
+    type: ObjectId, 
+    ref: "User",
     default: [],
-  }
+  }]
 },{timestamps: true});
 
 const User = mongoose.models.User || mongoose.model("User", UserSchema);

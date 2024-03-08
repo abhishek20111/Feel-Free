@@ -1,4 +1,3 @@
-
 import '@/app/globals.css'
 
 function MainContent({children}) {

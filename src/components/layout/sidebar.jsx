@@ -3,7 +3,6 @@
 import { SignOutButton, SignedIn, UserButton } from "@clerk/nextjs";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import "@/app/globals.css";
 import { useUser } from "@clerk/nextjs";
 import { useEffect, useState } from "react";
 import axios from "axios";
@@ -36,7 +35,7 @@ function sidebar() {
       {loding || !isLoaded ? (
         <Loading />
       ) : (
-        <div className="flex flex-col sticky left-0 top-0 z-20 h-screen p-3 w-60 md:w-[17vw] max-sm:hidden dark:bg-gray-900 dark:text-gray-100 custom-scrollbar overflow-auto custom-scrollbar">
+        <div className="flex flex-col sticky left-0 top-0 z-20 h-screen p-3 w-60 md:w-[17vw] max-sm:hidden dark:bg-gray-900 dark:text-gray-100 custom-scrollbar overflow-auto ">
           <div className="space-y-3">
             <div className="my-3">
               <h2>{firstPath === "/" ? "Dashboard" : firstPath}</h2>
@@ -87,7 +86,7 @@ function sidebar() {
                 </li>
                 <li
                   className={`${
-                    firstPath === "/" ? "bg-gray-400" : ""
+                    firstPath === "/message" ? "bg-gray-400" : ""
                   } rounded-lg p-1 `}
                 >
                   <a
@@ -108,7 +107,7 @@ function sidebar() {
                 </li>
                 <li
                   className={`${
-                    firstPath === "/" ? "bg-gray-400" : ""
+                    firstPath === "/order" ? "bg-gray-400" : ""
                   } rounded-lg p-1 `}
                 >
                   <a
@@ -146,7 +145,7 @@ function sidebar() {
                 </li>
                 <li
                   className={`${
-                    firstPath === "/" ? "bg-gray-400" : ""
+                    firstPath === "/setting" ? "bg-gray-400" : ""
                   } rounded-lg p-1 `}
                 >
                   <a
@@ -167,7 +166,7 @@ function sidebar() {
                 </li>
                 <li
                   className={`${
-                    firstPath === "/" ? "bg-gray-400" : ""
+                    firstPath === "/logout" ? "bg-gray-400" : ""
                   } rounded-lg p-1 `}
                 >
                   <div

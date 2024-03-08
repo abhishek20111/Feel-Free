@@ -41,49 +41,74 @@ function Posting({ id, updatePhoto, updateCaption, updateTag }) {
       // console.log(url);
       setLink(url);
       setLoding(false);
-      return url; // Return the uploaded image URL
+      return url; 
     } catch (error) {
       console.error("Error uploading image:", error);
       return null;
     }
   };
+
+  
+
   const onUpdateSubmit = async (data) => {
-    console.log(formData);
+    try {
+        setLoding(true);
+        const tagsArray = data.tags.map((tag) => tag.tag.replace("#", ""));
+
+        const response = await axios.put(`/api/post/${id}`,
+         {caption: data.caption, tag: tagsArray });
+
+        toast({
+          variant: "success",
+          title: "Post Edited Successfuly"
+        });
+        setLoding(false);
+        router.push("/");
+     
+    } catch (error) {
+      toast({
+        variant: "destructive",
+        title: "Error in submit post",
+        description: error,
+        // action: <ToastAction altText="Try again">Try again</ToastAction>,
+      })
+      console.error("Error submitting form data:", error);
+    }
   };
 
-  // const onSubmit = async (data) => {
-  //   try {
-  //     if (link) {
-  //       setLoding(true);
-  //       const tagsArray = data.tags.map((tag) => tag.tag.replace("#", ""));
+  const onSubmit = async (data) => {
+    try {
+      if (link) {
+        setLoding(true);
+        const tagsArray = data.tags.map((tag) => tag.tag.replace("#", ""));
 
-  //       const formData = {
-  //         creator: id,
-  //         postPhoto: link,
-  //         caption: data.caption,
-  //         tag: tagsArray,
-  //       };
-  //       const response = await axios.post("/api/post/new", { formData });
-  //       console.log(response.data);
-  //       toast({
-  //         variant: "success",
-  //         title: "Post Added Successfuly"
-  //       });
-  //       setLoding(false);
-  //       router.push("/");
-  //     } else {
-  //       console.error("Image URL not available");
-  //     }
-  //   } catch (error) {
-  //     toast({
-  //       variant: "destructive",
-  //       title: "Error in submit post",
-  //       description: error,
-  //       // action: <ToastAction altText="Try again">Try again</ToastAction>,
-  //     })
-  //     console.error("Error submitting form data:", error);
-  //   }
-  // };
+        const formData = {
+          creator: id,
+          postPhoto: link,
+          caption: data.caption,
+          tag: tagsArray,
+        };console.log(formData);
+        const response = await axios.post("/api/post/new", { formData });
+        console.log(response.data);
+        toast({
+          variant: "success",
+          title: "Post Added Successfuly"
+        });
+        setLoding(false);
+        router.push("/");
+      } else {
+        console.error("Image URL not available");
+      }
+    } catch (error) {
+      toast({
+        variant: "destructive",
+        title: "Error in submit post",
+        description: error,
+        // action: <ToastAction altText="Try again">Try again</ToastAction>,
+      })
+      console.error("Error submitting form data:", error);
+    }
+  };
 
   useEffect(() => {
     if (imageChange !== null) {
@@ -144,10 +169,7 @@ useEffect(() => {
       }
     }
   };
-  const onSubmit = (data) => {
-    console.log(data);
-  };
-  
+
 
   
 
@@ -276,7 +298,7 @@ useEffect(() => {
                           onKeyDown={handleKeyDown}
                           value={watch("newTag")}
                         />
-                        {console.log(errors.newTag)}
+                        {/* {console.log(errors.newTag)} */}
                         {errors.newTag && (
                           <span className="text-red-500 text-xs">
                             {errors.newTag.message}

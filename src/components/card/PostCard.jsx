@@ -1,11 +1,11 @@
 "use client";
 
 import Link from "next/link";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import Dot from "../../../public/assets/3_dot.png";
 import User_Icon from "../../../public/assets/user_icon.png";
-import Delete_Post from "../../../public/assets/dele.png";
+
 import Edit_Icon from "../../../public/assets/edit_con.png";
 import Black_Heart from "../../../public/assets/black_heart.png";
 import Red_Heart from "../../../public/assets/red_heart.png";
@@ -16,16 +16,18 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
+import Delete from "./Delete";
 
 function PostCard({ key, post, creator, loggedInUser, update }) {
   const LikedByCreator = post.likes && post.likes.includes(creator._id);
-
   const SaveByCreator =
     post.creator.savedPosts && post.creator.savedPosts.includes(key);
 
   function joinTags(tags) {
     return tags.join(" ");
   }
+
+
 
   return (
     <div className="m-auto w-full max-w-xl rounded-lg flex flex-col gap-4 bg-dark-1 p-5 max-sm:gap-2">
@@ -93,20 +95,13 @@ function PostCard({ key, post, creator, loggedInUser, update }) {
                         src={Edit_Icon}
                         height={30}
                         width={30}
-                        alt="Delete"
+                        alt="Edit"
                       />
                       <h1 className="sm:block hidden">Edit</h1>
                     </Link>
 
-                    <div className="flex items-center sm:gap-4 cursor-pointer">
-                      <Image
-                        src={Delete_Post}
-                        height={30}
-                        width={30}
-                        alt="Delete"
-                      />
-                      <h1 className="sm:block hidden">Delete</h1>
-                    </div>
+                    <Delete id={post._id}/>
+                    
                   </div>
                 </PopoverContent>
               </Popover>
@@ -122,8 +117,8 @@ function PostCard({ key, post, creator, loggedInUser, update }) {
             <Image
               src={post.postPhoto}
               alt="post photo"
-              width={850}
-              height={800}
+              width={1050}
+              height={1000}
               className="rounded-lg m-auto max-h-full h-fit w-full sm:w-fit"
             />
           </div>

@@ -6,7 +6,7 @@ export const POST = async (req) => { // Modify function signature to accept req 
         await connectToDatabase();
         const { formData} = await req.json();
         const { caption, postPhoto, tag , creator} = formData;
-         
+         console.log(caption, postPhoto, tag, creator);
         const newPost = new Post({
             creator,
             caption,

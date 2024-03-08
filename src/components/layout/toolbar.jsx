@@ -1,7 +1,9 @@
 import { Button } from "@/components/ui/button"
+import { Key } from "lucide-react";
 import Link from "next/link";
 
 function toolbar() {
+  
   return (
     <div className="flex justify-between w-full sticky top-3 z-20 overflow-auto">
       <div className="max-w-md mx-auto">
@@ -35,7 +37,7 @@ function toolbar() {
       <div className="">
         <Link href="/">
         <Button  variant="outline">
-            Create Post
+            Do What Ever
         </Button>
         </Link>
       </div>
