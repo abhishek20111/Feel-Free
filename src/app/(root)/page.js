@@ -14,11 +14,9 @@ export default function Home() {
   const [userData, setuserData] = useState();
   const getFeedPost = async () => {
     try {
-
       // const response =  await fetchPost(1); //server Action
       const response = await fetchPostsByPage(1); //Normal api call
       console.log(response);
-
       setuserData(response);
       setLoading(false);
     } catch (error) {
@@ -34,13 +32,18 @@ export default function Home() {
     }
   }, [userData]);
 
+  
+
+
   return (
     <div className="flex flex-col gap-10">
       {loading || !isLoaded ? (
-        <Loader />
-      ) : user && (
         <>
-        <ShowAllCard userData={userData} getFeedPost={getFeedPost} />
+        <Loader />
+        </>
+      ) : user && ( 
+        <>
+        <ShowAllCard userData={userData} getFeedPost={getFeedPost}  />
         <LoadMore/>
         </>
       )}

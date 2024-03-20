@@ -10,10 +10,10 @@ export const POST = async (req) => {
         const conn = await connectToDatabase();
         if(conn)console.log("DB connected already so post");
 
-        const { pageSize, page } = await req.json();   
+        const { pageSize, page , skips } = await req.json();   
         const perPage = parseInt(pageSize, 10);
         const pageNum = parseInt(page, 10);
-        const skip = (pageNum - 1) * perPage;
+        const skip = skips || (pageNum - 1) * perPage;
 
         // Fetch posts from MongoDB with pagination and sorting
         const posts = await Post.find()

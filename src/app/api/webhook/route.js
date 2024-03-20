@@ -25,7 +25,6 @@ export async function POST(req) {
   }
  
   // Get the body
-  console.log("hi xxx "+process.env.WEBHOOK_SECRET);
   const payload = await req.json()
   const body = JSON.stringify(payload);
  

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback } from "react";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -14,29 +14,33 @@ import Delete_Post from "../../../public/assets/dele.png";
 import { deletePost } from "@/lib/actions/No_action";
 import { useToast } from "@/components/ui/use-toast";
 import Image from "next/image";
-function Delete({ id }) {
+
+const Delete = React.memo(({ id, update, getMyData }) => {
   const { toast } = useToast();
 
-  const handleDelete = async (id) => {
-    try {
-      // Call deletePost function with the post ID
-      const response = await deletePost(id);
-      console.log(response);
-      toast({
-        variant: "success",
-        title: "Post Deleted Successfully",
-      });
-      // Reload the page after successful deletion
-      window.location.reload()
-    } catch (error) {
-      toast({
-        variant: "destructive",
-        title: "Error in deleting post",
-        description: error,
-      });
-      console.error("Error deleting post:", error);
-    }
-  };
+  const handleDelete = useCallback(
+    async (postId) => {
+      try {
+        const response = await deletePost(postId);
+        console.log(response);
+        toast({
+          variant: "success",
+          title: "Post Deleted Successfully",
+        });
+        update();
+        getMyData();
+        // window.location.reload();
+      } catch (error) {
+        toast({
+          variant: "destructive",
+          title: "Error in deleting post",
+          description: error,
+        });
+        console.error("Error deleting post:", error);
+      }
+    },
+    [toast, update, getMyData]
+  );
 
   return (
     <AlertDialog>
@@ -48,8 +52,7 @@ function Delete({ id }) {
         <AlertDialogHeader>
           <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
           <AlertDialogDescription>
-            This will permanently delete your post and no recovery is
-            possible.
+            This will permanently delete your post and no recovery is possible.
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
@@ -62,6 +65,6 @@ function Delete({ id }) {
       </AlertDialogContent>
     </AlertDialog>
   );
-}
+});
 
 export default Delete;

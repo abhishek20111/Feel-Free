@@ -144,7 +144,7 @@ useEffect(() => {
         setValue('tags', newFields);
       }
     }
-  }, 100); // 0.1 seconds timeout
+  }, 100);
 
   return () => clearTimeout(timer);
 }, [fields]);

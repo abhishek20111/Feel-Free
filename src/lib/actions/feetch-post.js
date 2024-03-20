@@ -2,7 +2,7 @@
 
 import Post from '@/lib/models/post';
 import { connectToDatabase } from '@/lib/dbConfig/dbConfig';
-
+import { cookies } from 'next/headers'
 
 export async function fetchPost(page) {
 
@@ -29,6 +29,23 @@ export async function fetchPost(page) {
 }
 
 
+export async function CookieID() {
+  const cookieStore = cookies()
+  const id = cookieStore.get('userID')
+  // cookies().set('name', 'lee', { secure: true })
+  return id;
+}
+
+export const Logout = async () => {
+  try {
+    const cookieStore = cookies()
+    cookieStore.set('userID', '', { httpOnly: true, expires: new Date(0), secure: true })
+    return;
+  } catch (error) {
+    console.error('Error following user:', error);
+    throw error;
+  }
+}
 
 // export async function fetchPost(page) {
 //   const perPage = 10;
