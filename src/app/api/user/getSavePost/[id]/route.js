@@ -29,7 +29,6 @@ export const GET = async (req, { params }) => {
     if (!user) {
       return new NextResponse("User not found", { status: 404 });
     }
-    console.log(user.savedPosts);
     return NextResponse.json(user.savedPosts, { status: 200 });
   } catch (err) {
     console.error("Failed to get user:", err);

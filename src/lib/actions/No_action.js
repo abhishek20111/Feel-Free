@@ -117,9 +117,7 @@ export const GetPopularStar = async () => {
 
 export const GetSavePostData = async (id) => {
   try {
-    console.log(id);
     const response = await axios.get(`/api/user/getSavePost/${id}`);
-    console.log(response.data);
     return response.data;
   } catch (error) {
     console.error('Error getting user:', error);

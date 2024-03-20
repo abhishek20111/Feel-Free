@@ -14,9 +14,7 @@ function WhiteList() {
 
   const getSavePost = async () => {
     setLoading(true);
-    console.log(myId);
     const response = await GetSavePostData(myId);
-    console.log(response);
     setUserData(response);
     setLoading(false);
   };
