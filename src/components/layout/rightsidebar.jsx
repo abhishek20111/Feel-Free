@@ -14,15 +14,13 @@ function RightSidebar() {
   const getPopularUser = async () => {
     setLoding(true);
     const response = await GetPopularStar();
-    // console.log(response);
+    console.log(response);
     setUserData(response);
     setLoding(false)
   };
 
   useEffect(() => {
-    if (userData.length === 0) {
-      getPopularUser();
-    }
+    if(userData.length<4) user && getPopularUser();
   }, [userData, user]);
 
   return (<>
@@ -34,8 +32,8 @@ function RightSidebar() {
         <h2 className="text-2xl font-bold mb-[1.5rem] w-full ">Trending Stars</h2>
 
         <div className=" divide-y-2 mx-auto w-full max-w-xl rounded-lg flex flex-col gap-4 bg-dark-1 p-2 max-sm:gap-2">
-          {console.log(userData.length >0, userData )}
-          {userData.length >0 &&
+          {console.log(userData.length >0 && userData )}
+          {(userData.length>0) &&
             userData.map((user, idx) => (
               <div key={idx} className="flex gap-x-9 p-2 gap-y-5 ">
                 <Link href={`/profile/${user._id}`} className="flex gap-x-4">

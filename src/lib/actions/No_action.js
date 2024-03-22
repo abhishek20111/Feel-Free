@@ -3,6 +3,7 @@ import axios from 'axios';
 export async function fetchPostsByPage(page, size, skips) {
   const pageSize = size || 3;
   try {
+    console.log("fetching posts" , page, size, skips);
     const response = await axios.post("/api/post", { pageSize, page, skips });
     return response.data.posts;
   } catch (error) {
@@ -99,15 +100,16 @@ export const GetUser = async (id) => {
 
 export const GetPopularStar = async () => {
   try {
-    const response = await axios.get(`/api/user/trending`);
+    console.log("herer ---");
+    const response = await axios.get('api/user/trending')
     const users = response.data.user;
-
+    console.log(users);
     // Sort the users based on the number of followers in descending order
     users.sort((a, b) => b.followers.length - a.followers.length);
 
     // Get the top 5 users with the maximum number of followers
     const topUsers = users.slice(0, 5);
-
+    console.log(topUsers);
     return topUsers;
   } catch (error) {
     console.error('Error fetching popular users:', error);

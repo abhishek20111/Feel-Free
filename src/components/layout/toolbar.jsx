@@ -7,9 +7,10 @@ import Link from "next/link";
 import { CookieID } from "@/lib/actions/feetch-post";
 import SearchIcon from "../../../public/assets/search.png";
 import Image from "next/image";
-import { SignedIn, UserButton } from "@clerk/nextjs";
+import { SignedIn, UserButton, useUser } from "@clerk/nextjs";
 
 function Toolbar() {
+  const { isSignedIn, user, isLoaded } = useUser();
   const [searchValue, setSearchValue] = useState("");
   const router = useRouter();
   const [myId, setMyId] = useState();
@@ -30,8 +31,8 @@ function Toolbar() {
       const userIDDD = await CookieID();
       if (userIDDD) setMyId(userIDDD.value);
     };
-    getId();
-  }, []);
+    if(!isLoaded)getId();
+  }, [user]);
 
   return (
     <div className="flex justify-between w-full sticky top-3 z-20 overflow-auto">
@@ -88,8 +89,8 @@ function Toolbar() {
         } */}
         {
           <SignedIn>
-          <UserButton />
-        </SignedIn>
+            <UserButton />
+          </SignedIn>
         }
       </div>
     </div>

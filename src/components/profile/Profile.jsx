@@ -120,7 +120,7 @@ function Profile({ searchPost, searchPeople, user, myId }) {
                 <p className="text-lg font-semibold text-gray-700 mx-auto">
                   {searchPost && searchPost.length ? searchPost.length : 0}
                 </p>
-                <p className="text-lg font-semibold text-gray-300">Post</p>
+                <p className="text-base sm:text-lg font-medium sm:font-semibold text-gray-300">Post</p>
               </button>
               <button
                 onClick={() => setToggle(1)}
@@ -129,7 +129,7 @@ function Profile({ searchPost, searchPeople, user, myId }) {
                 <p className="text-lg  font-semibold text-gray-700 mx-auto">
                   {userData && userData.followers.length}
                 </p>
-                <p className="text-lg font-semibold text-gray-300">Followers</p>
+                <p className="text-base sm:text-lg font-medium sm:font-semibold text-gray-300">Followers</p>
               </button>
               <button
                 onClick={() => setToggle(2)}
@@ -138,7 +138,7 @@ function Profile({ searchPost, searchPeople, user, myId }) {
                 <p className="text-lg font-semibold text-gray-700 mx-auto">
                   {userData && userData.following.length}
                 </p>
-                <p className="text-lg font-semibold text-gray-300">Following</p>
+                <p className="text-base sm:text-lg font-medium sm:font-semibold text-gray-300">Following</p>
               </button>
             </div>
           </div>
