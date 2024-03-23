@@ -1,24 +1,25 @@
 
-import mongoose from 'mongoose';
+import mongoose from "mongoose";
 
-// const MONGODB_URI = process.env.MONGODB_URI;
-const MONGODB_URI = 'mongodb+srv://project:LrmePKBVp0ilFNoY@cluster0.cw3zhzn.mongodb.net/?retryWrites=true&w=majority';
 
-let cached = global.mongoose || { conn: null, promise: null };
 
-const connectToDatabase = async () => {
-  if (cached.conn) return cached.conn;
+let isConnected = false;
 
-  if (!MONGODB_URI) throw new Error('MONGODB_URI is missing');
+export const connectToDatabase = async () => {
+  mongoose.set("strictQuery", false);
 
-  cached.promise = cached.promise || mongoose.connect(MONGODB_URI, {
-    dbName: 'freeFall',
-    bufferCommands: false,
-  });
+  if (isConnected) {
+    console.log("DB connected already");
+    return;
+  }
 
-  cached.conn = await cached.promise;
-
-  return cached.conn;
+  try {
+    await mongoose.connect('mongodb+srv://project:LrmePKBVp0ilFNoY@cluster0.cw3zhzn.mongodb.net/?retryWrites=true&w=majority', {
+      dbName: "freeFall",
+    });
+    isConnected = true;
+    console.log("Connected to Database");
+  } catch (error) {
+    console.log("Error connecting to the database:", error);
+  }
 };
-
-module.exports = { connectToDatabase };
