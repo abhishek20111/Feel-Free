@@ -10,7 +10,7 @@ export default authMiddleware({
                 const path = request.nextUrl.pathname
                 const isPublicPath = path === '/sign-in' || path === '/sign-up' 
 
-                if (!isPublicPath && !auth.userId ){
+                if (!isPublicPath && !auth.userId && !auth.isPublicRoute){
                     console.log("hrere 2", request.url);
                     return NextResponse.redirect(new URL('/sign-in', request.url));
                 }
